@@ -1,0 +1,1189 @@
+<!doctype html>
+<html lang="en"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Seventeen AI systems, 2003–2026 · Matthew Molineaux">
+  <meta property="og:description" content="AI systems architect. What each system was for, the constraint it had to meet, and what happened.">
+  <meta property="og:url" content="https://molinemc.github.io/systems.html">
+  <meta property="og:image" content="https://molinemc.github.io/img/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://molinemc.github.io/img/og-card.png">
+  <title>Seventeen AI systems, 2003&ndash;2026 &middot; Matthew Molineaux</title>
+<meta name="description" content="Systems designed by Matthew Molineaux: goal reasoning, causal explanation, plan repair, and agent evaluation, 2003–2026.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Literata:ital,opsz,wght@0,7..72,300..700;1,7..72,300..600&amp;family=Syne:wght@600;700&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper:   #FBFBF7;
+    --raised:  #FFFFFF;
+    --ink:     #11161A;
+    --muted:   #47535A;
+    --faint:   #79868D;
+    --rule:    #DCE2E0;
+    --signal:  #0B6E55;
+    --warn:    #A2611A;
+    --serif: "Literata", "Charter", "Georgia", "Times New Roman", serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper:  #0E1316;
+      --raised: #161D20;
+      --ink:    #E9EEEC;
+      --muted:  #A6B2B2;
+      --faint:  #7C898B;
+      --rule:   #283135;
+      --signal: #4FC79E;
+      --warn:   #D8A055;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper:  #0E1316;  --raised: #161D20; --ink: #E9EEEC;
+    --muted:  #A6B2B2;  --faint:  #7C898B; --rule: #283135;
+    --signal: #4FC79E;  --warn:   #D8A055;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; font-size: 18px; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 1rem;
+    line-height: 1.5;
+    font-variant-numeric: oldstyle-num;
+  }
+  .wrap { max-width: 41rem; margin: 0 auto; padding: 0 1.5rem; }
+  a { color: var(--signal); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+  a:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; border-radius: 2px; }
+
+  /* ---- masthead ---- */
+  header { padding: 5.5rem 0 2.2rem; }
+  .name  { font-weight: 600; margin: 0 0 2.6rem; color: var(--muted);
+  }
+  .thesis {
+    font-size: 2.1rem; font-weight: 500; line-height: 1.07;
+    letter-spacing: -0.022em; margin: 0; max-width: 21ch; text-wrap: balance;
+  }
+  @media (min-width: 38rem) { .thesis { font-size: 2.9rem; } }
+  @media (min-width: 58rem) { .thesis { font-size: 3.2rem; } }
+  .standfirst  {
+    margin: 2.1rem 0 0; color: var(--ink);
+  }
+  nav.links {
+    margin-top: 2.25rem; padding-top: 1.25rem;
+    border-top: 1px solid var(--rule);
+    display: flex; flex-wrap: wrap; gap: 0.35rem 1.6rem;
+  }
+
+  /* ---- groups ---- */
+  section.group { padding: 3.4rem 0 0.5rem; }
+  .group-head {
+    display: flex; align-items: baseline; gap: 1rem;
+    border-bottom: 2px solid var(--signal); padding-bottom: 0.45rem;
+  }
+  .group-head h2 {
+    font-size: 1.6rem; font-weight: 700; line-height: 1.2; color: var(--signal);
+    margin: 0; letter-spacing: -0.01em; flex: 1 1 auto;
+  }
+  .group-count  { color: var(--faint); white-space: nowrap; }
+  .group-note  { margin: 0.9rem 0 0; color: var(--ink); }
+
+  body { counter-reset: sys; }
+  article.system { padding: 1.9rem 0; border-bottom: 1px solid var(--rule);
+                   counter-increment: sys; position: relative; }
+  article.system:last-of-type { border-bottom: 0; }
+  article.system p  { margin: 0.5rem 0 0; color: var(--ink); }
+  .refs  { margin-top: 0.65rem; display: flex; flex-wrap: wrap; gap: 0.3rem 1.1rem; }
+  .refs .cites { color: var(--faint); }
+  .refs .missing { color: var(--faint); font-style: italic; }
+  .available  { margin: 1.5rem 0 0; padding: 0.85rem 1rem;
+               background: var(--raised); border: 1px solid var(--rule); }
+  nav.themes { margin: 1.7rem 0 0; padding: 1.3rem 0 0.9rem;
+               border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .timeline { margin: 2rem 0 2rem; }
+  .lanes { margin-top: 2.4rem; }
+  .timeline figcaption  { margin-top: 1.25rem;
+                         color: var(--faint); }
+  .tl-row, .tl-axis { display: grid; grid-template-columns: 5.2rem 1fr; gap: 0.7rem;
+                      align-items: center; }
+  .tl-row { padding: 2px 0; }
+  .tl-nm  { font-weight: 600; color: var(--muted);
+           display: flex; align-items: center; gap: 0.35rem; }
+  .tl-track { position: relative; height: 11px; }
+  .tl-axis .tl-track { height: 1.1rem; border-bottom: 1px solid var(--rule); }
+  .tl-yr  { position: absolute; bottom: 1px; transform: translateX(-50%); color: var(--faint); }
+  .tl-bar { position: absolute; top: 2px; height: 8px; border-radius: 1px; opacity: 0.85; }
+  .tl-tick { position: absolute; top: 0; width: 1px; height: 12px; background: var(--paper); }
+  .tl2 { position: relative; }
+  .tl2-axis { position: absolute; left: 0; right: 0; height: 1px; background: var(--faint); }
+  .tl2-tick { position: absolute; width: 1px; height: 7px; background: var(--faint); }
+  .tl2-yr  { position: absolute; transform: translateX(-50%); color: var(--faint); }
+  .cal { position: absolute; transform: translateX(-50%); display: flex;
+         flex-direction: column; align-items: center; }
+  .cal.up { justify-content: flex-end; }
+  .cal.dn { flex-direction: column; }
+  .cal a  { color: var(--muted); text-decoration: none;
+           white-space: nowrap; display: inline-flex; align-items: center; gap: 0.3em; }
+  .cal a:hover, .cal a:focus-visible { color: var(--ink); }
+  .cal .stem { width: 1px; background: var(--rule); display: block; }
+  .tags { display: flex; flex-wrap: wrap; justify-content: center;
+          gap: 0.12rem 0.62rem; margin-top: 0.16rem; max-width: 8.8rem; }
+  .tags i  { font-style: normal; font-weight: 600; }
+  .ab  { font-style: normal; font-weight: 600;
+        color: var(--faint); }
+  .sw { width: 9px; height: 9px; display: inline-block; border-radius: 1px;
+        flex: none; vertical-align: baseline; }
+  .theme { display: flex; gap: 1rem; padding: 0.34rem 0; align-items: center; }
+  .theme-name  { flex: 0 0 13rem; font-weight: 600;
+                display: flex; align-items: center; gap: 0.45rem; }
+  .theme-list  { color: var(--muted); }
+  .theme-list a { white-space: nowrap; }
+  .theme-list a { text-decoration: none; border-bottom: 1px solid transparent; }
+  .theme-list a:hover, .theme-list a:focus-visible { border-bottom-color: var(--signal); }
+  @media (max-width: 40rem) { .theme { display: block; } .theme-name  { display: block; margin-bottom: 0.15rem; } }
+  .runs { margin: 1.3rem 0 1.1rem; }
+  .runs-scroll { overflow-x: auto; }
+  .runs table  { border-collapse: collapse; width: 100%;
+                font-variant-numeric: tabular-nums; }
+  .runs th, .runs td { padding: 0.32rem 0.55rem; text-align: left;
+                       border-bottom: 1px solid var(--rule); white-space: nowrap;
+                       vertical-align: top; }
+  .runs td.out { white-space: normal; max-width: 8.5rem; line-height: 1.3; }
+  .runs thead th  {
+                   color: var(--faint); font-weight: 600; border-bottom: 1px solid var(--ink);
+                   white-space: normal; vertical-align: bottom;
+                   padding-bottom: 0.4rem; }
+  .runs tbody th { font-weight: 600; }
+  .runs .n { text-align: right; }
+  .runs thead th.n { text-align: right; }
+  .runs tr.off td, .runs tr.off th { color: var(--muted); }
+  .runs .defs  { margin: 0.8rem 0 0;
+                color: var(--muted); }
+  .runs figcaption  { margin-top: 1rem;
+                     color: var(--faint); }
+  .samples-inline { margin-top: 1.5rem; }
+  .samples-inline .mini  { color: var(--muted); margin: 0 0 0.75rem; }
+  .sample h4  { margin: 0; font-weight: 600; }
+  .builds  { margin-top: 0.55rem; color: var(--muted); }
+  .builds b  { font-weight: 600; color: var(--faint); margin-right: 0.5rem; }
+  .builds a { text-decoration: none; border-bottom: 1px solid var(--rule); }
+  .builds a:hover, .builds a:focus-visible { border-bottom-color: var(--signal); }
+  .sys-head { display: flex; align-items: baseline; gap: 0.8rem; margin-bottom: 0.1rem;
+              flex-wrap: wrap; }
+  .sys-when  { margin-left: auto; }
+  .sys-tags { position: relative; top: -0.15rem; flex-wrap: nowrap;
+              max-width: none; justify-content: flex-start; margin-top: 0; }
+  .sys-name {
+    font-family: "Syne", "Futura", "Trebuchet MS", sans-serif;
+    font-size: 1.3rem; font-weight: 700; letter-spacing: 0.025em;
+    line-height: 1.22; margin: 0; scroll-margin-top: 1.5rem;
+  }
+  .sys-name .sc { font-size: 0.78em; letter-spacing: 0.055em; }
+  .sys-when  { color: var(--faint); white-space: nowrap;
+  }
+  .sys-expand  { font-style: italic; color: var(--muted);
+                margin: 0.35rem 0 0; }
+  figure.fig { margin: 1.2rem 0 1rem; }
+  figure.fig img { display: block; width: 100%; height: auto; background: #fff;
+                   border: 1px solid var(--rule); padding: 0.7rem; }
+  figure.fig figcaption  { margin-top: 0.5rem;
+                          color: var(--muted); }
+  figure.fig .src { color: var(--faint); }
+  .result  {
+    display: block; margin-top: 0.7rem; padding: 0.62rem 0.85rem;
+    background: var(--raised); border: 1px solid var(--rule);
+    color: var(--ink);
+  }
+  .result::before {
+    content: "Result"; display: block; font-weight: 600;
+    color: var(--signal); margin-bottom: 0.18rem;
+  }
+  .constraint  {
+    display: block; margin-top: 0.7rem; padding: 0.62rem 0.85rem;
+    border: 1px solid var(--rule); border-left: 3px solid var(--warn);
+    color: var(--ink);
+  }
+  .constraint::before {
+    content: "Designed against"; display: block; font-weight: 600;
+    color: var(--warn); margin-bottom: 0.18rem;
+  }
+
+  /* ---- sample output ---- */
+  .samples { padding: 3rem 0 1rem; }
+  .sample-grid { display: grid; gap: 1rem; margin-top: 1.4rem; }
+  @media (min-width: 40rem) { .sample-grid { grid-template-columns: 1fr 1fr; } }
+  .sample {
+    background: var(--raised); border: 1px solid var(--rule);
+    padding: 1.15rem 1.25rem;
+  }
+  .sample p  { margin: 0.4rem 0 0; color: var(--muted); }
+
+  footer  {
+    margin-top: 3rem; padding: 1.4rem 0 4rem;
+    border-top: 1px solid var(--rule);
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+  /* ---------- consolidated type scale ----------
+     display / heading / name / lede / body / small / micro, one prose measure */
+  .standfirst, .available, .group-note, article.system p,
+  .constraint, .result, .sample p, .samples-inline .mini {
+    font-size: 1rem; line-height: 1.5; max-width: none;
+  }
+  .standfirst { font-size: 1.08rem; line-height: 1.5; }
+
+
+  .sys-expand, .builds, .refs, .runs .defs, .cal a,
+  figure.fig figcaption, .timeline figcaption, .runs figcaption, .sample h4, footer {
+    font-size: 0.88rem; line-height: 1.45;
+  }
+  .runs .defs, .timeline figcaption, .runs figcaption,
+  figure.fig figcaption, .samples-inline .mini { max-width: none; }
+  .runs table { font-size: 0.88rem; }
+
+  .name, .ab, .tags i, .builds b, .runs thead th,
+  .constraint::before, .result::before, .tl-nm {
+    font-size: 0.72rem; line-height: 1.3; letter-spacing: 0.08em;
+    text-transform: uppercase; font-weight: 600;
+  }
+  .group-count, .sys-when, .tl-yr, .tl2-yr, .refs .cites {
+    font-size: 0.72rem; line-height: 1.3; letter-spacing: 0.02em; text-transform: none;
+  }
+
+  .theme-name, .theme-list { font-size: 0.94rem; line-height: 1.45; }
+  .group-head h2 { line-height: 1.2; }
+  .sys-name { line-height: 1.2; }
+
+  /* one vertical step between a paragraph and whatever follows it */
+  article.system p, .builds, .constraint, .result, .refs { margin-top: 0.75rem; }
+  figure.fig, .runs, .samples-inline { margin-top: 1.1rem; }
+  .sys-head .tags { flex-wrap: nowrap; max-width: none; justify-content: flex-start;
+                    margin-top: 0; }
+
+  /* at a glance */
+  .glance { margin: 2.2rem 0 0; padding: 1.3rem 0 0.2rem; border-top: 1px solid var(--rule); }
+  .glance-h { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+              font-weight: 600; color: var(--faint); margin: 0 0 0.5rem; }
+  .glance ul { margin: 0; padding: 0; list-style: none; }
+  .glance li { padding: 0.5rem 0 0.5rem 1.15rem; position: relative; line-height: 1.5;
+               border-bottom: 1px solid var(--rule); }
+  .glance li:last-child { border-bottom: 0; }
+  .glance li::before { content: ""; position: absolute; left: 0; top: 1.02rem;
+                       width: 0.42rem; height: 0.42rem; background: var(--signal); }
+  .glance b { font-weight: 600; }
+  .overview { padding-top: 3.4rem; }
+
+  /* role and linked tags in each header */
+  .sys-head .sys-when { margin-left: 0.9rem; }
+  .sys-role { margin-left: auto; font-size: 0.72rem; text-transform: uppercase;
+              letter-spacing: 0.08em; font-weight: 600; color: var(--muted); white-space: nowrap; }
+  a.tag { text-decoration: none; font-style: normal; font-size: 0.72rem; font-weight: 600;
+          letter-spacing: 0.07em; }
+  a.tag:hover, a.tag:focus-visible { text-decoration: underline; }
+  .theme { scroll-margin-top: 1.5rem; }
+  details.more { margin-top: 1.3rem; border-top: 1px solid var(--rule);
+                 border-bottom: 1px solid var(--rule); }
+  details.more > summary { list-style: none; cursor: pointer; padding: 0.7rem 0;
+                           font-weight: 600; color: var(--signal); display: flex;
+                           align-items: center; gap: 0.55rem; }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::before { content: ""; width: 0.5rem; height: 0.5rem;
+                                   border-right: 2px solid currentColor; border-bottom: 2px solid currentColor;
+                                   transform: rotate(-45deg); transition: transform 0.15s; flex: none; }
+  details.more[open] > summary::before { transform: rotate(45deg); }
+  details.more > summary:hover, details.more > summary:focus-visible { text-decoration: underline; }
+  details.more .more-body { padding-bottom: 1rem; }
+  details.more .sub { margin-top: 0.4rem; }
+  /* vertical timeline: two staggered columns about a centre line; one column on phones */
+  .vt { margin: 1.8rem 0 2rem; }
+  .vtl { list-style: none; margin: 0; padding: 0 0 1.6rem; position: relative;
+         display: grid; grid-template-columns: 1fr 1fr; column-gap: 2.6rem; }
+  .vtl-wrap { position: relative; }
+  .vtl-axis { position: absolute; left: 50%; top: 0.3rem; bottom: 1.2rem; width: 1px;
+              background: var(--faint); }
+  .vtl-i { position: relative; padding: 0.3rem 0 0.55rem; }
+  .vtl-i.L { grid-column: 1; text-align: right; }
+  .vtl-i.R { grid-column: 2; transform: translateY(1.55rem); }
+  .vtl-i::after { content: ""; position: absolute; top: 1.35rem; width: 9px; height: 9px;
+                  border-radius: 50%; background: var(--paper); border: 2px solid var(--signal); }
+  .vtl-i.L::after { right: calc(-1.3rem - 6px); }
+  .vtl-i.R::after { left: calc(-1.3rem - 5px); }
+  .vtl-y { display: block; font-size: 0.72rem; color: var(--faint); letter-spacing: 0.02em; }
+  .vtl-n { display: block; font-size: 0.94rem; line-height: 1.3; color: var(--ink); text-decoration: none; }
+  .vtl-n:hover, .vtl-n:focus-visible { text-decoration: underline; }
+  .vtl-t { display: flex; flex-wrap: wrap; gap: 0.1rem 0.55rem; margin-top: 0.1rem; }
+  .vtl-i.L .vtl-t { justify-content: flex-end; }
+  @media (max-width: 34rem) {
+    .vtl { grid-template-columns: 1fr; padding-bottom: 0; }
+    .vtl-axis { left: 0.35rem; bottom: 0; }
+    .vtl-i.L, .vtl-i.R { grid-column: 1; text-align: left; transform: none; padding-left: 1.5rem; }
+    .vtl-i.L .vtl-t { justify-content: flex-start; }
+    .vtl-i.L::after, .vtl-i.R::after { left: calc(0.35rem - 5px); right: auto; }
+  }
+
+  /* At a glance as a bordered inset: no rules between items, markers on the first line */
+  .glance { margin: 1.6rem 0 0; padding: 0.9rem 1.1rem 0.75rem; border: 1px solid var(--rule);
+            border-top: 1px solid var(--rule); background: var(--raised); }
+  .glance-h { margin: 0 0 0.35rem; }
+  .glance li { padding: 0.3rem 0 0.3rem 1.05rem; border-bottom: 0; }
+  .glance li::before { top: calc(0.3rem + 0.75em - 0.21rem); }
+
+  /* full-screen: the inset sits beside the introduction; the reading column keeps its width and left edge */
+  @media (min-width: 75em) {
+    .wrap { max-width: 62.4rem; }
+    header { display: grid; grid-template-columns: 38rem 19rem; column-gap: 2.4rem; align-items: start; }
+    header > * { grid-column: 1; }
+    header > .glance { grid-column: 2; grid-row: 1 / span 5; margin-top: 0.3rem; }
+    main { max-width: none; }
+    footer, .group-note, .overview { max-width: 38rem; }
+    .sys-cols { display: grid; grid-template-columns: 38rem 19rem; column-gap: 2.4rem;
+                grid-template-areas: "main rail" "tail rail"; grid-template-rows: auto 1fr; align-items: start; }
+    .sys-main { grid-area: main; } .sys-rail { grid-area: rail; } .sys-tail { grid-area: tail; }
+    .sys-rail > :first-child { margin-top: 0.75rem; }
+    .sys-rail figure.fig { margin: 1rem 0 0; }
+  }
+  /* narrower screens: ARTUE's tall diagram at three-quarter width */
+  @media (max-width: 74.99em) {
+    figure.fig img[src$="artue-gda-model.png"] { width: 75%; display: block; margin: 0 auto; }
+  }
+  header > .name { margin: 0.55rem 0 0; }
+  .thesis { margin-top: 0.2rem; }
+  .eyebrow { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em;
+              font-weight: 600; color: var(--faint); margin: 0 0 0.35rem; }
+  .quote { border-left: 3px solid var(--rule); padding-left: 0.9rem; margin: 0.9rem 0 0;
+            color: var(--ink); }
+  .quote .src { display: block; font-size: 0.72rem; color: var(--faint); margin-top: 0.3rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <p class="eyebrow">Systems portfolio</p>
+  <h1 class="thesis">Seventeen AI systems,<br>2003&ndash;2026</h1>
+  <p class="name">Matthew Molineaux, Ph.D.</p>
+  <p class="standfirst">
+    I design autonomous agents and AI-assisted reasoning tools that represent the world with precision. Some improve their world model when the world changes. I use
+    language models where open-ended judgment is the job, and keep correctness in explicit models
+    the system can check. This page is about the systems I have architected over my career; I describe what each system was for, constraints it had to meet,
+    and what happened. An overview at the end of the page collects some overall themes.
+  </p>
+  <nav class="links">
+    <a href="mailto:matthew.molineaux@gmail.com">matthew.molineaux@gmail.com</a>
+    <a href="https://www.linkedin.com/in/matthew-molineaux">LinkedIn</a>
+    <a href="resume.pdf">Resume (PDF)</a>
+    <a href="#overview">Overview</a>
+  </nav>
+  <p class="available">
+    Looking for work as an AI systems architect: proposing systems, owning the design, and seeing
+    them built. Specializing in robotics and autonomy, medicine, and other fields where precise reasoning matters. Open to remote work and to relocating, and available for contract or fractional engagements.
+  </p>
+
+  <section class="glance" aria-label="At a glance">
+    <h2 class="glance-h">At a glance</h2>
+    <ul>
+      <li><b>Principal investigator on a $4.1M DARPA program</b>: ten contributors across four
+          institutions, four independent evaluations, targets met or beaten in all four, on schedule.</li>
+      <li><b>Interfaces for fast decision cycles</b>: e.g., REST/JSON for third-party evaluation, MQTT between components, SOAP for serving agent functionality</li>
+      <li><b>Designs other people built on</b>: e.g., Georgia Tech, BBN, SoarTech and Mad Doc Software</li>
+      <li><b>Built to budget</b>: e.g., sub-second answers on local hardware, heavy inference and analysis under $5 per website</li>
+      <li><b>Seventeen systems over twenty-three years</b>, from reusable foundations to
+          applications built against specific operational requirements.</li>
+    </ul>
+  </section>
+
+
+</header>
+
+<main>
+
+
+
+
+
+
+<section class="group">
+  <div class="group-head">
+    <h2>Applications</h2>
+    <span class="group-count">8 systems</span>
+  </div>
+  <p class="group-note">
+    Built for a specific operational problem, with constraints set from outside: a latency budget, a unit count, how much attention an operator had to spare, what a run could cost. They were specific, external and not negotiable.
+  </p>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="synthetic-cohort-site-evaluation">S<span class="sc">YNTHETIC</span>-<span class="sc">COHORT</span> <span class="sc">SITE</span> <span class="sc">EVALUATION</span></h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span>
+      <span class="sys-role">Sole architect &amp; engineer</span>
+      <span class="sys-when">2026</span>
+    </div>
+    
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>Spins up varied personas that act as potential customers browsing a website. Each persona has distinct demographics, goals, budget, expertise, and patience,
+      and browses a website the way a human does; based on this context, it makes its own decisions to purchase, contact, continue, or abandon. This reveals how and why a website might fail customers without paying for a human focus group. For example, a retiree who just wants a phone number and a procurement
+      officer looking for a spec sheet would move on for different reasons; the comprehensive report provides the trajectory of each, showing what they were looking for and how quickly they found it or stopped looking. Reports also describe evidence boundaries: widgets
+      the cohort could not operate, broken links encountered, and pages that were never found. These findings help understand limits of evaluation, but also where usage patterns might not match expectations. Language models reason about pages and choose each persona's actions; the trajectories and aggregate results are computed from those recorded actions, not written by a model, so they can't be hallucinated. Rather than scraping web pages, this tool renders content using Chromium, so no new code is required for different sites.</p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      Cost. A run has to come in under five dollars, which rules out having a model reason over every page of a large site and forces the agent to spend its budget where a real visitor would.
+    </span>
+    <span class="result">
+      Cost, run time and persona behavior bounded against real sites: run across roughly fifty sites in repeated batches to test generality. The batch below is one representative sample.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <figure class="runs">
+      <div class="runs-scroll">
+      <table>
+        <thead><tr><th>Site</th><th>Outcome</th><th class="n">Wall<br>clock</th><th class="n">Turns<br>(avg)</th><th class="n">Cost</th><th class="n">Questions<br>answered</th><th class="n">Personas<br>converted</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">arXiv</th><td class="out">Completed</td><td class="n">15.7m</td><td class="n">22.0</td><td class="n">$1.74</td><td class="n">91%</td><td class="n">66.7%</td></tr>
+          <tr><th scope="row">MusicBrainz</th><td class="out">Completed</td><td class="n">13.7m</td><td class="n">14.7</td><td class="n">$1.77</td><td class="n">83%</td><td class="n">100%</td></tr>
+          <tr><th scope="row">dev.to</th><td class="out">Completed</td><td class="n">21.2m</td><td class="n">43.3</td><td class="n">$2.96</td><td class="n">76%</td><td class="n">0%</td></tr>
+          <tr><th scope="row">F-Droid</th><td class="out">Completed</td><td class="n">16.6m</td><td class="n">29.0</td><td class="n">$2.34</td><td class="n">92%</td><td class="n">100%</td></tr>
+          <tr><th scope="row">Ghost</th><td class="out">Completed</td><td class="n">22.9m</td><td class="n">38.3</td><td class="n">$1.86</td><td class="n">92%</td><td class="n">100%</td></tr>
+          <tr><th scope="row">Vercel</th><td class="out">Completed</td><td class="n">25.8m</td><td class="n">51.0</td><td class="n">$2.41</td><td class="n">75%</td><td class="n">100%</td></tr>
+          <tr><th scope="row">archive.org</th><td class="out">Completed</td><td class="n">19.0m</td><td class="n">20.0</td><td class="n">$1.61</td><td class="n">70%</td><td class="n">66.7%</td></tr>
+          <tr><th scope="row">Client A</th><td class="out">Completed</td><td class="n">15.4m</td><td class="n">15.7</td><td class="n">$0.85</td><td class="n">67%</td><td class="n">66.7%</td></tr>
+          <tr><th scope="row">Client B</th><td class="out">Completed</td><td class="n">24.6m</td><td class="n">24.3</td><td class="n">$1.49</td><td class="n">81%</td><td class="n">100%</td></tr>
+          <tr><th scope="row">Client C</th><td class="out">Completed</td><td class="n">18.4m</td><td class="n">22.3</td><td class="n">$1.03</td><td class="n">53%</td><td class="n">100%</td></tr>
+          <tr class="off"><th scope="row">Chewy</th><td class="out">Recognized as unbrowsable</td><td class="n">0.6m</td><td class="n">—</td><td class="n">$0.00</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr class="off"><th scope="row">NPR</th><td class="out">Recognized as unbrowsable</td><td class="n">0.6m</td><td class="n">—</td><td class="n">$0.00</td><td class="n">—</td><td class="n">—</td></tr>
+          <tr class="off"><th scope="row">Letterboxd</th><td class="out">Blocked mid-visit</td><td class="n">11.9m</td><td class="n">—</td><td class="n">$0.06</td><td class="n">—</td><td class="n">—</td></tr>
+        </tbody>
+      </table>
+      </div>
+      <p class="defs">“Converted” is a persona's stated intent to take the site's primary action — purchase, signup, or contact — at the end of one simulated visit, not confirmed behavior over repeated real visits. “Turns” counts the distinct actions the agent chose during that visit, averaged across personas.</p>
+      <figcaption>One representative batch, May 2026. Three retail clients anonymized; site behavior may have changed since.</figcaption>
+    </figure>
+    <details class="more">
+      <summary>Findings and sample reports</summary>
+      <div class="more-body">
+    <h4 class="sub">What the batch showed</h4>
+    <p>Three results were about the sites rather than the tool. <b>dev.to</b> produced no immediate
+      signups, though two of three personas said they would come back later — a genuine
+      result, not a scoring bug. <b>Client A</b>'s single non-conversion traced to real product fit,
+      price and dietary restrictions, not to a site or tool failure. And two <b>Client B</b> personas
+      flagged real policy terms, final-sale and frequent stock-outs, as concerns for future purchases.</p>
+    <p>The rest were about the tool's own limits, which it reported rather than papering over. On
+      <b>Ghost</b>, <b>Vercel</b> and <b>Client C</b> it flagged specific elements as outside what it
+      could operate — a dead search box, a free-text AI widget, a store locator and an off-site
+      spec sheet — instead of skipping them silently. <b>Chewy</b> and <b>NPR</b> it assessed as
+      prohibitively defended before any persona ran, at no cost. On <b>Letterboxd</b> a CAPTCHA stopped
+      the one attempt, and the run was flagged for human review rather than guessed at.</p>
+    <div class="samples-inline">
+      <p class="mini">Two reports from that batch, unedited. Worth looking at: the per-persona
+        question table, which separates a question the site answered from one it answered
+        satisfactorily, and the list of page elements no visitor discovered.</p>
+      <div class="sample-grid">
+        <div class="sample">
+          <h4><a href="reports/vercel.pdf">Vercel</a></h4>
+          <p>Three personas, 75% of questions answered, all three reached signup. 51 actions over
+             25.8 minutes, $2.41. The agent flagged a free-text AI widget as outside what it could
+             operate rather than skipping it silently.</p>
+        </div>
+        <div class="sample">
+          <h4><a href="reports/archive-org.pdf">archive.org</a></h4>
+          <p>Three personas, 70% of questions answered, two of three reached the site's primary
+             action. 20 actions over 19.0 minutes, $1.61 — the cheapest completed run in the
+             batch bar the clients.</p>
+        </div>
+      </div>
+    </div>
+      </div>
+    </details>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="tad">TAD</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-indiv" style="color:#7F2670">INDIV</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; PI</span>
+      <span class="sys-when">2023–2025</span>
+    </div>
+    <p class="sys-expand">Trustworthy Algorithmic Delegate</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Makes medical triage decisions that match a specific clinician's judgment rather than a
+      population average. Performs human-like reasoning to evaluate symptoms and possible causes, compare to similar cases, consider prognostic information, and judge priorities.&nbsp;I built this system as a principal investigator on DARPA's In the Moment program, acting as lead developer and directing a team of ten spread across four institutions.&nbsp;</p>
+    <p>Medical triage is particularly difficult for AI because experts disagree on the right judgements and there is often no correct
+      answer to match against. TAD learned offline to understand the characteristics that real human doctors use to make decisions, so that it could quickly make hard decisions online, just as a real doctor must.&nbsp;</p>
+    <p>Two REST/JSON interfaces connected TAD to externally developed systems: the first interface was to the evaluation
+      harness, so that TAD could be evaluated systematically and blindly against questions the developers had never seen. The second interface connected TAD to human-characterization systems built by BBN and
+      SoarTech, for training on human data. I helped define both specifications without owning them.</p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      TAD interoperates with distinguishing characteristics defined by other teams, using their choice of features rather than ours; runs on local machinery; and answers queries in under a second.
+    </span>
+    <span class="result">
+      Delivered on schedule and won every round: targets met or exceeded in all four independent evaluations, run by CACI, ahead of the competing generative-AI team each time, with a system that does not generate.
+    </span>
+    <p class="quote">The evaluation team reported &ldquo;impressive progress&rdquo; from two alignable decision-makers, one of them TAD.<span class="src">Jennifer McVay (CACI) and Ewart de Visser, AAAI Fall Symposium 2025</span></p>
+    </aside>
+    <div class="sys-tail">
+    <figure class="fig"><img alt="TAD decision-making architecture" src="img/tad-subsystems.png" loading="lazy"><figcaption>Both TAD subsystems. Offline training learns the case base and the weights; online decision-making reuses most of the same components against observations that have no known answer. Orange is TAD, blue the data it passes, black the external inputs. <span class="src">ICCBR 2024, figs. 1 and 2</span></figcaption></figure>
+    <div class="refs">
+      <a href="https://doi.org/10.1007/978-3-031-63646-2_24">Aligning to Human Decision-Makers in Military Medical Triage, ICCBR 2024</a>
+      <a href="https://ojs.aaai.org/index.php/AAAI-SS/article/download/31285/33445">Algorithmic Decision-Making in Difficult Scenarios, AAAI Spring Symposium 2024 (open PDF)</a>
+      <a href="https://www.darpa.mil/news/2024/podcast-machines-die">DARPA, When Should Machines Decide? Voices from DARPA, ep. 83, 2024</a>
+      <a href="https://drexel.edu/news/archive/2023/October/DARPA-ITM-CCI-decision-making">Drexel University on joining the ITM team, 2023</a>
+      <a href="https://ojs.aaai.org/index.php/AAAI-SS/article/view/36889">Challenges and Choices when Evaluating Alignment in Human-AI Systems, AAAI Fall Symposium 2025</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="scepter-planner">M<span class="sc">ILITARY</span> <span class="sc">CAMPAIGN</span> <span class="sc">PLANNER</span></h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span>
+      <span class="sys-role">Component architect</span>
+      <span class="sys-when">2022–2024</span>
+    </div>
+    <p class="sys-expand">DARPA SCEPTER program</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      A goal-based planner built for a program whose point was speed: machine-generated strategies
+      produced fast enough to outpace human planners. The distinguishing requirement was
+      scale — it had to plan over large numbers of units, where hierarchical decomposition
+      earns its keep and flat search does not. It ran as a component of a larger simulation system
+      built by others, connecting over an MQTT interface, so the two could be developed and
+      deployed independently.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      At the leaves the planner had to issue direction in an idiosyncratic narrative-oriented language to guide subagents. Results could not be accurately anticipated before execution, and needed approximation.</span>
+    <span class="result">
+      Won and delivered inside a $4.4M program: I co-wrote the winning proposal and led this component's design, working with two Parallax scientists and three from SIFT.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://parallaxresearch.org/news/press-releases/parallax-advanced-research-awarded-darpas-scepter-program-contract">Parallax awarded DARPA's SCEPTER program contract, May 2023</a>
+      <span class="cites">CUI; description limited to what is public</span>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="pride">PRIDE</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-indiv" style="color:#7F2670">INDIV</a></span>
+      <span class="sys-role">Architect</span>
+      <span class="sys-when">2019–2023</span>
+    </div>
+    <p class="sys-expand">Prediction and Recognition of Intent, Decision and Emotion</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      A decision aid for weighing international consequences: it represents what another
+      party wants, what they will and will not do, and what they think of everyone else at the
+      table. Emotions are modeled rather than abstracted away, on the argument that an action
+      giving offense is a fact about the world a planner has to account for. I won this DARPA program for
+      Knexus before leaving for Parallax, then subcontracted back to lead its design; most of it
+      was implemented at Knexus. Architect, never PI. Exercised against two historical cases: a Syria war-game analysis and the Cuban Missile Crisis. Repeated
+      Monte Carlo runs tested generalization of the knowledge representation to related cases.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Ran on a standard laptop: theory-of-mind reasoning with higher-order probabilistic and cultural modeling, inside a laptop's computational budget, with the architecture redesigned in phase two around the people using it.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://parallaxresearch.org/news/blog/knexus-research-corporation-and-parallax-advanced-research-advance-darpas-pride-project">Knexus and Parallax advance DARPA's PRIDE project, Aug 2023</a>
+      <span class="cites">export-controlled; description limited to what is public</span>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="gate">GATE</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2018–2019</span>
+    </div>
+    <p class="sys-expand">Goal-based team crisis intervention</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Watches a human team pursuing a shared goal, recognizes crises, and proactively recommends a responsive, small change to the plan. Critical to this is maintaining structure: when one teammate's part of a distributed shared plan changes, other teammates may fail due to dependencies. GATE reassigns lower-level goals in such a way that the overall dependency structure is preserved, without communication. GATE is built on ARTUE, with state
+      estimation, crisis recognition and intervention generation as three separable subproblems.
+    </p>
+    <p class="builds"><b>Builds on</b><a href="#artue">ARTUE</a>, <a href="#shop2-pddl">SHOP2-PDDL+</a></p>
+    <figure class="fig"><img alt="Team crisis intervention skeleton" src="img/gate-skeleton.png" loading="lazy"><figcaption>The
+      cognitive skeleton: state estimation feeds estimates, crisis recognition decides whether the
+      change matters, intervention generation acts only when it does.
+      <span class="src">Advances in Cognitive Systems 9, 2020, fig. 2</span></figcaption></figure>
+    <p>
+      Interventions are generated by a new planner, Goal Assignment Structure Refinement (GASR). I built GASR by adapting the action implementation of SHOP2‑PDDL+ to a goal decomposition algorithm. By delegating lower-level planning to subteams with separate resources,&nbsp;GASR greatly speeds planning and replanning. Follow-on: I rebuilt GASR from scratch in Rust in 2026; no new results published.</p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      It had to be usable by soldiers in the field without pulling attention off the task they were already doing, and reading a full plan would cost attention nobody had to spare.
+    </span>
+    <span class="result">
+      Teams responded faster and got more done: significantly quicker to both complications (p&lt;.01) and significantly more effective. GASR held search effort roughly flat where full hierarchical planning for the combined team peaked near 900 nodes — it plans less because it delegates more.
+    </span>
+    <figure class="fig"><img alt="GASR search effort" src="img/gasr-search-effort.png" loading="lazy"><figcaption>Search nodes required
+      over a run, GASR against per-team and combined goal-decomposition planning.
+      <span class="src">From the project deck; paper figs. 3–7 carry the responsiveness and
+      effectiveness distributions.</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="paper/goal-based-team-crisis-intervention.pdf">Goal-based Team Crisis Intervention, Advances in Cognitive Systems 9, 2020</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="carpe-amore">CARPE&nbsp;/&nbsp;AMORE</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2013–2017</span>
+    </div>
+    <p class="sys-expand">Cognitive Architecture for RePlanning and Execution</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p class="builds"><b>Builds on</b><a href="#shop2-pddl">SHOP2-PDDL+</a>, in its first version</p>
+    <p>
+      Plans and schedules naval mine countermeasures operations, adapting a long-horizon plan as conditions, assets and objectives shift. Rebuilt three years
+      later as AMORE, a second version under a second contract, whose construction and
+      evaluation I managed across a team of four.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      Dozens of units over operations lasting weeks, with each class of unit carrying its own downtime and transit requirements — so the schedule had to stay feasible against heterogeneous constraints.&nbsp;</span>
+    <span class="constraint">Existing planners would create schedules from scratch, and humans wouldn't use the new, radically different plans. CARPE and AMORE were designed for "minimal disruption", meaning that they would deliberately find a plan as similar as possible to the original plan that accounted for new shifts.&nbsp;</span>
+    <span class="result">Its scheduling algorithm, CLOSR, repaired plans with minimal disruption and still met the mission standard across a series of randomly generated operations. The approach outlasted the contract that produced it, and outlasted me: the Navy funded a
+      second generation rather than a follow-on study, and the work carried on after I left in
+      2018.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <figure class="fig"><img alt="CARPE schedule display" src="img/carpe-schedule-display.png" loading="lazy"><figcaption>CARPE's schedule display. Task groups down the left, days across the top, each block a tasking; the operator edits the recommended repair directly and the system re-checks it for conflicts. <span class="src">Proc. SPIE 9454, 2015, fig. 3</span></figcaption></figure>
+    <div class="refs"><a href="https://doi.org/10.1117/12.2177070">Minimally Disruptive Schedule Repair for MCM Missions, Proc. SPIE 9454, 2015</a><a href="paper/carpe-spie-2015.pdf">PDF</a></div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="asm">ASM</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2014–2016</span>
+    </div>
+    <p class="sys-expand">Autonomous Squad Member</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      An agent that accompanies a team on a mission, works out what the team is doing when goals change, and keeps up by&nbsp;planning for a matching goal. Five components in one
+      decision cycle: it parses what teammates say out loud, explains what must have happened
+      to make that utterance true, recognizes the plan the team has adopted, selects a goal that
+      fits, and plans for it. Builds on DiscoverHistory, SHOP2-PDDL+, and ARTUE. Integrates with components created by teammates for natural language interpretation and plan recognition. Runs against a Havok 3D simulation.
+    </p>
+    <p class="builds"><b>Builds on</b><a href="#discoverhistory">DiscoverHistory</a>, <a href="#artue">ARTUE</a>, <a href="#shop2-pddl">SHOP2-PDDL+</a></p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      ASM does not communicate directly with human teammates, who might be operating quietly in hostile territory. Everything it knows comes from watching, and listening to brief speech acts between human team members.
+    </span>
+    <span class="result">
+      Demonstrated in multiple reconnaissance scenarios. Example: team is interrupted by a sniper, abandons the mission goal for cover and counter-fire, clears the threat and resumes. Agent tracks, recognizes intent of squad members, and cooperates toward shared goals without communicating.&nbsp;</span>
+    </aside>
+    <div class="sys-tail">
+    <figure class="fig"><img alt="ASM's decision cycle" src="img/asm-decision-cycle.png" loading="lazy"><figcaption>ASM's decision cycle. Starting at the environment, the interpreter recognizes speech; an explanation generator (DiscoverHistory) recognizes and infers actions teammates perform, a plan recognition infers teammate goals, the goal selector (ARTUE) selects cooperative goals, and the plan&nbsp; generator (SHOP2-PDDL+), chooses actions that affect the environment. <span class="src">ACS workshop 2015, fig. 1</span></figcaption></figure>
+    <div class="refs">
+      <a href="paper/asm-acs-2015.pdf">Goal Reasoning for an Autonomous Squad Member, ACS Goal Reasoning Workshop 2015</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="adrus">ADRUS</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2013–2015</span>
+    </div>
+    <p class="sys-expand">Anomaly Detection and Recovery for Unmanned Systems</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p class="builds"><b>Builds on</b><a href="#shop2-pddl">SHOP2-PDDL+</a>, in its first version</p>
+    <p>
+      Detects when something has gone wrong on an unmanned vehicle mid-mission and replans to
+      recover, so a person supervises rather than drives. The problem it was built for is
+      labor, not autonomy for its own sake: unmanned systems of the period ran teleoperated,
+      several operators to a vehicle, which caps how many you can field at all. Moving routine
+      anomaly handling onto the vehicle inverts that ratio.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Funded past the prototype: recovery from unexpected events demonstrated in simulated logistics and resupply missions, then carried through to a Phase II development contract.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <span class="cites">ONR/OSD SBIR Phase II, contract N00014-14-C-0279 — no public report; SBIR data rights</span>
+    </div>
+    </div>
+    </div>
+  </article>
+
+</section>
+<section class="group">
+  <div class="group-head">
+    <h2>Foundations</h2>
+    <span class="group-count">5 systems</span>
+  </div>
+  <p class="group-note">These foundations are general solutions for a category of problems. Requirements come from the space of covered domains rather than from one. Domain generality is the binding constraint: no knowledge of a particular world may be written in program code, only in logic-based models the system reads. The model language has to absorb variability nobody has specified yet, and methods must absorb the flexibility of that language. All of the following tools are interoperable with a single language, an extension of PDDL+. The applications above draw on these: ARTUE in GATE and ASM, DiscoverHistory in ASM, and SHOP2&#8209;PDDL+ in four of them.
+  </p>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="discoverhistory">D<span class="sc">ISCOVER</span>H<span class="sc">ISTORY</span></h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2010–2017</span>
+    </div>
+    
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Reasons backward from partial observations to what must have happened, over mixed
+      discrete and continuous data. Instead of detecting only that a plan failed, the agent can
+      say which unobserved event explains it. DHAgent puts this to work: belief management sits
+      between monitoring and planning, so the agent plans against what it has inferred rather
+      than only what it has seen.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      The same answers at a twentieth of the cost: as accurate as a state-of-the-art deductive method while cutting execution time 95%. An agent using it achieved 20–63% more of its goals than one that does not explain.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <figure class="fig"><img alt="Architecture comparison" src="img/dhagent-architecture.png" loading="lazy"><figcaption>A standard goal-based replanning agent (top) and DHAgent (bottom). The components in purple are the additions: belief management between monitoring and planning, and a learning cycle that writes back to the environment model. <span class="src">Dissertation, fig. 1.1</span></figcaption></figure>
+    <div class="refs"><a href="https://www.ifaamas.org/Proceedings/aamas2012/papers/1F_4.pdf">DiscoverHistory: Understanding the Past in Planning and Execution, AAMAS 2012</a><a href="https://www.ifaamas.org/Proceedings/aamas2012/papers/1F_4.pdf">PDF</a>
+      <a href="https://gitlab.com/myfriendmatt/artue-and-discoverhistory">Source code (GitLab)</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="eml">EML</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2011–2017</span>
+    </div>
+    <p class="sys-expand">Explanation-Based Model Learner</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Turns explanations of what must have happened into corrections of the agent's own model of
+      its environment. An agent that meets a dynamic nobody told it about stops being repeatedly
+      surprised by it and starts predicting it.
+    </p>
+    <p class="builds"><b>Works with</b><a href="#discoverhistory">DiscoverHistory</a></p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      An agent stops being surprised by the same thing twice: within five learning trials it reached 90% of the achievable improvement, learning from a handful of surprises rather than a large dataset.</span>
+    </aside>
+    <div class="sys-tail">
+    <figure class="fig"><img alt="Execution cost for DHAgent with a complete model (green), a model learned by EML (blue), and an incomplete model (red)" src="img/eml-execution-cost.png" loading="lazy"><figcaption>Execution cost for DHAgent with a complete model (green), a model learned by EML (blue), and an incomplete model (red). Lower is better; the learned model converges on the complete one within a few trials. <span class="src">Dissertation, fig. 8.1</span></figcaption></figure>
+    <div class="refs">
+      <a href="paper/molineaux-dissertation-2017.pdf">Understanding What May Have Happened in Dynamic, Partially Observable Environments, George Mason University, 2017</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="artue">ARTUE</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2009–2013</span>
+    </div>
+    <p class="sys-expand">Autonomous Response to Unexpected Events</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      A domain-independent agent that decides which goal to pursue when something surprising
+      happens. It explains the discrepancy first, then forms a new goal out of the explanation,
+      rather than replanning toward a goal that may no longer make sense. In one scenario it
+      infers an approaching storm from a single lightning strike, works out that the ship it was
+      told to deliver is now in danger, and adopts sheltering — a goal nobody gave it. Its
+      planner is SHOP2‑PDDL+. A SOAP agent
+      interface allows remote use: observations in, actions out, so the agent could sit somewhere
+      other than the environment it was acting in.
+    </p>
+    <p class="builds"><b>Builds on</b><a href="#shop2-pddl">SHOP2-PDDL+</a></p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Every component earns its place, measurably: an ablation across three scenarios, 25 runs each, took scores from 0.33–0.35 planning once, through 0.40–0.48 with replanning and 0.58–0.74 with explanation, to 0.73–0.98 for the whole agent. Every step significant.
+    </span>
+    <figure class="fig"><img alt="Goal-driven autonomy model" src="img/artue-gda-model.png" loading="lazy"><figcaption>The goal-driven autonomy loop ARTUE implements. A conventional agent runs Planner to Execution to Observations; the Controller adds the four steps that make the goal itself revisable — detect the discrepancy, explain it, formulate a goal from the explanation, decide which goal wins. <span class="src">AAAI 2010, fig. 1</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <p>
+      ARTUE's main cost is in hand-authored knowledge: a described Navy strategy domain required 115 predicate forms, 148
+      methods, 9 principles and 28 goal-generation rules. Two successors, built
+      by others under my supervision, went after exactly that. T-ARTUE learns goal
+      selection knowledge by querying a human expert instead of being handed it.
+      M-ARTUE replaces domain-specific goal formulation with two domain-independent
+      motivators that score a goal by its projected consequences, balancing the agent's internal
+      needs against goals introduced from outside. In tests on simulated planetary rovers, M-ARTUE reached its goals as reliably as ARTUE did with hand-written rules.</p>
+    <div class="refs">
+      <a href="paper/m-artue-flairs-2013.pdf">Domain-Independent Heuristics for Goal Formulation, FLAIRS 2013</a>
+      <a href="paper/t-artue-flairs-2011.pdf">Active and Interactive Discovery of Goal Selection Knowledge, FLAIRS 2011</a>
+    
+      <a href="https://gitlab.com/myfriendmatt/artue-and-discoverhistory">Source code (GitLab)</a>
+    </div>
+    <div class="refs">
+      <a href="https://ojs.aaai.org/index.php/AAAI/article/view/7576">Goal-Driven Autonomy in a Navy Strategy Simulation, AAAI 2010</a>
+      <span class="cites">173 citations; independent groups still analyze the architecture and build alternatives against it more than a decade on</span>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="shop2-pddl">SHOP2-PDDL+</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2010</span>
+    </div>
+    <p class="sys-expand">HTN planner with nonlinear continuous effects</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      The first hierarchical task network planner able to reason about nonlinear continuous
+      effects. A wait action and a state-projection algorithm let it ask what the world will
+      look like at an arbitrary future moment, with fuel draining, vessels moving, and events
+      firing the instant a threshold is crossed. ARTUE plans with it.</p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Fast enough to plan during execution: fifty-action plans in about a second with a dozen moving vessels. General: all twenty rover benchmark problems solved where the competing planner failed four.
+    </span>
+    <figure class="fig"><img alt="Planner timing comparison" src="img/shop2pddl-timing.png" loading="lazy"><figcaption>Plan generation time against problem difficulty for SHOP2‑PDDL+, plain SHOP2 and COLIN. Log scale; the cost of projecting continuous values through every state shows as the gap to plain SHOP2. <span class="src">AAAI 2010, fig. 4</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://ojs.aaai.org/index.php/AAAI/article/view/7753">Planning in Dynamic Environments: Extending HTNs with Nonlinear Continuous Effects, AAAI 2010</a>
+      <a href="https://ojs.aaai.org/index.php/AAAI/article/view/7753/7613">PDF</a>
+    
+      <a href="https://gitlab.com/myfriendmatt/artue-and-discoverhistory">Source code (GitLab)</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="environment-transformation-framework">E<span class="sc">NVIRONMENT</span> <span class="sc">TRANSFORMATION</span> <span class="sc">FRAMEWORK</span></h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span>
+      <span class="sys-role">Architect</span>
+      <span class="sys-when">2019–2023</span>
+    </div>
+    
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Deliberately transforms an environment to measure how far an agent degrades, and
+      characterizes the classes of novelty an agent actually meets once deployed. The
+      transformations are defined from the environment's side rather than the agent's, which is
+      what makes the measurement comparable: most definitions call a thing novel when it differs
+      from what some particular agent has seen, so two agents can never face the same novelty
+      unless they have lived the same life. Eight dimensions describe how changes differ —
+      whether the agent steers itself into the change or is dragged in, whether it is noticed
+      before or after it starts to hurt, whether noticing takes deliberate effort.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Robustness claims become testable: the framework fixes the minimum conditions under which a change is worth testing at all — it has to affect performance, be possible to notice, and leave the agent able to respond.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://usc-isi-i2.github.io/AAAI2022SS/papers/SSS-22_paper_49.pdf">An Environment Transformation-based Framework for Comparison of Open-World Learning Agents, AAAI Spring Symposium 2022</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+</section>
+<section class="group">
+  <div class="group-head">
+    <h2>Testbeds</h2>
+    <span class="group-count">1 system</span>
+  </div>
+  <p class="group-note">
+    Infrastructure for running experiments rather than for doing the work. Built to be handed to other people, and taken up by them: research groups at three institutions and a commercial game studio built against this interface.
+  </p>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="tielt-liet">TIELT&nbsp;/&nbsp;LIET</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2003–2009</span>
+    </div>
+    <p class="sys-expand">Testbed for Integrating and Evaluating Learning Techniques</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      The integration layer for a DARPA program, built to turn an M×N interface problem into
+      an M+N one: one interface per decision system (i.e., agent) and one per environment, instead of one for
+      every pairing. It let learning agents written by five to ten independent teams run against
+      simulated environments none of them had built, including a commercial game engine from the studio that became Rockstar New
+      England. I owned the abstraction and the documentation those teams built against.
+      Seven environments sat behind that one abstraction: MadRTS, Unreal Tournament, Stratagus,
+      Chess, Zork, the Rush 2008 football simulator, and Gazebo/Stage. Diverse simple interface types were supported by games of that era, including pipes, formatted messages sent on a TCP stream, Java library APIs, and DLL binding; TIELT has customizable interfaces that read messages from each, and TIELT was configured to support new ones using regular expressions rather than coding. Decision systems mostly wrote TIELT-specific interfaces using one of these interface types;
+      Soar was an exception, where TIELT accommodated an existing Java API.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      Experiments had to run without leaking hidden state to the decision systems, or the evaluation would measure nothing. And it had to run locally on every performer's machine — Mac, Linux and Windows — rather than on infrastructure we controlled.
+    </span>
+    <span class="result">
+      Working as intended: a later CaT experiment was set up by adapting the earlier one inside
+      TIELT rather than rebuilding the integration. LIET was a smaller refactor, built with an early standard agent interface. Other groups built on it without me. A Georgia Tech team used TIELT as the interface between their transfer-learning agent and MadRTS, a strategy game built for DARPA by Mad Doc Software, a commercial game designer. Lehigh's InSyTe group published TIELT game model and simulator interface files for Call to Power 2, plus a LIET agent, downloadable from the Lehigh group's site. In 2010 a group at Complutense Madrid, CSIC and Georgia Tech built MMPM as an explicit alternative, comparing to TIELT's action language in particular.
+    </span>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://www.aaai.org/Papers/IJCAI/2007/IJCAI07-168.pdf">Transfer Learning in Real-Time Strategy Games Using Hybrid CBR/RL, IJCAI 2007</a>
+      <a href="https://www.cse.lehigh.edu/InSyTe/CTP2TieltIntegration/CTP2Integration.html">Lehigh InSyTe: CTP2 integration with TIELT and LIET</a>
+      <a href="https://sites.cc.gatech.edu/fac/ashwin/papers/er-10-03.pdf">MMPM: a Generic Platform for Case-Based Planning Research, ICCBR 2010 workshop</a>
+    </div>
+    <figure class="fig"><img alt="TIELT architecture" src="img/tielt-architecture.png" loading="lazy"><figcaption>TIELT's architecture: five knowledge bases define how a decision system and a game engine talk to each other, so swapping either one is a configuration change. Game screenshots in the original figure replaced with plain plates. <span class="src">AAAI 2005, fig. 1</span></figcaption></figure>
+    <div class="refs"><a href="https://cdn.aaai.org/AAAI/2005/ISD05-011.pdf">TIELT: A Testbed for Gaming Environments, AAAI 2005</a></div>
+    </div>
+    </div>
+  </article>
+
+</section>
+<section class="group">
+  <div class="group-head">
+    <h2>Prototypes</h2>
+    <span class="group-count">3 systems</span>
+  </div>
+  <p class="group-note">
+    Agents built in game environments to find out whether an approach worked at all, before anything depended on the answer.
+  </p>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="cat">C<span class="sc">A</span>T</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2005</span>
+    </div>
+    <p class="sys-expand">Case-based Tactician</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Learns to beat an opponent it has never seen, in the real-time strategy game Stratagus, by retrieving remembered cases from past similar positions and adapting the tactic that performed best from those cases. Each remembered case describes the buildings available,
+      units, a tactic, and tactic performance; roughly eight tactic decisions decide a five-minute game.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      Stratagus exposed only a high-level interface for expressing preferences over unit behavior, not direct control of individual units. That is why a case selects a tactic rather than a sequence of moves: the grain of the decision was set by what the engine would let an outside system say.
+    </span>
+    <span class="result">
+      Beat opponents it had never seen: the first case-based system to learn to defeat an unknown real-time strategy opponent, matching or beating the best hand-evolved counter-strategy on both victory and score — which no single static strategy managed — though not every counter-strategy individually.
+    </span>
+    <figure class="fig"><img alt="CaT's victory frequency against random opponents over 100 trials, against the best hand-evolved static counter-strategy and the average of them" src="img/cat-victory-frequency.png" loading="lazy"><figcaption>CaT's victory frequency against random opponents over 100 trials, against the best hand-evolved static counter-strategy and the average of them. <span class="src">IJCAI 2005 workshop, fig. 2</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="paper/cat-ijcai-2005.pdf">Learning to Win: Case-Based Plan Selection in a Real-Time Strategy Game, IJCAI 2005 workshop</a>
+      <a href="https://link.springer.com/chapter/10.1007/11536406_4">ICCBR 2005 version</a>
+    
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="casey-cbql-pr">C<span class="sc">ASEY</span>&nbsp;/&nbsp;CBQL-PR</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2009</span>
+    </div>
+    <p class="sys-expand">Case-Based Q-Lambda with Plan Recognition</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      A transfer learning system for adversarial environments: it learns to play quarterback against a
+      defense that secretly picks one of five plays each down, transferring what it recognizes about the
+      defense into control of its own side. Rather than learn over the raw movements of eight defenders, it rapidly recognizes the
+      defense's plan by assigning it to an acquired cluster and learns over that instead, collapsing a state
+      space of size 4.3 billion into two features during the learning process.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="result">
+      Learned ten times faster than competing learners without plan recognition: reached its best competitor's peak in a tenth of the time, after recognizing the defense's real play more than 99% of the time within a thousand examples. It beat both baselines in every comparison (p&lt;.0001).
+    </span>
+    <figure class="fig"><img alt="Learning curves" src="img/cbqlpr-learning-curves.png" loading="lazy"><figcaption>Total reward over 50,000 trials for the plan-recognizing learner against a raw-feature and a hand-optimized baseline, averaged over 15 replications. <span class="src">FLAIRS 2009, fig. 3</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://cdn.aaai.org/ocs/107/107-2408-1-PB.pdf">Beating the Defense: Using Plan Recognition to Inform Learning Agents, FLAIRS 2009</a>
+    
+      <a href="https://videolectures.net/videos/ijcai09_moore_cqtlfae">Casey&rsquo;s Quest, IJCAI 2009 Best Overall Video</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+<article class="system">
+    <div class="sys-head">
+      <h3 class="sys-name" id="cassl">CASSL</h3>
+      <span class="tags sys-tags"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span>
+      <span class="sys-role">Architect &amp; engineer</span>
+      <span class="sys-when">2008</span>
+    </div>
+    <p class="sys-expand">Continuous Action and State Space Learner</p>
+    <div class="sys-cols">
+    <div class="sys-main">
+    <p>
+      Learns what an action will do when both the action and the state are continuous, rather than
+      chopping them into buckets first. Most reinforcement learners at the time discretized the action space to make it tractable; but in true continuous domains, that may miss the best action. CASSL keeps the models continuous
+      and regresses over them when it applies case knowledge.
+    </p>
+    </div>
+    <aside class="sys-rail">
+    <span class="constraint">
+      MadRTS gave orders over continuous parameters — heading, group size and the rest —
+      so a discretized model could not express the order the situation actually called for.
+    </span>
+    <span class="result">
+      Did the job with a tenth of the effort: under ten orders per episode within about 100 training episodes, where a random agent plateaued near 80 and a CMAC controller converged more slowly.
+    </span>
+    <figure class="fig"><img alt="CASSL learning performance" src="img/cassl-learning-performance.png" loading="lazy"><figcaption>
+      Orders given per episode against training episodes, for CASSL, a CMAC controller and a random
+      agent. <span class="src">FLAIRS 2008, fig. 4</span></figcaption></figure>
+    </aside>
+    <div class="sys-tail">
+    <div class="refs">
+      <a href="https://cdn.aaai.org/FLAIRS/2008/FLAIRS08-065.pdf">Learning Continuous Action Models in a Real-Time Strategy Environment, FLAIRS 2008</a>
+    </div>
+    </div>
+    </div>
+  </article>
+
+</section>
+<section class="overview" id="overview">
+  <div class="group-head"><h2>Overview</h2></div>
+  <p class="group-note">The same seventeen systems cut by theme: which threads ran through the work, when each was active, and how they overlap.</p>
+<nav class="themes" aria-label="Themes">
+  <div class="theme" id="theme-expl"><span class="theme-name"><i class="sw" style="background:#0B8F82"></i>Explanation and diagnosis <i class="ab">EXPL</i></span><span class="theme-list"><a href="#artue">ARTUE</a>, <a href="#discoverhistory">DiscoverHistory</a>, <a href="#eml">EML</a>, <a href="#asm">ASM</a>, <a href="#gate">GATE</a>, <a href="#pride">PRIDE</a>, <a href="#tad">TAD</a></span></div>
+  <div class="theme" id="theme-goal"><span class="theme-name"><i class="sw" style="background:#2E5BD8"></i>Goal reasoning and formulation <i class="ab">GOAL</i></span><span class="theme-list"><a href="#artue">ARTUE</a>, <a href="#gate">GATE</a>, <a href="#scepter-planner">Military campaign planner</a>, <a href="#tad">TAD</a></span></div>
+  <div class="theme" id="theme-cont"><span class="theme-name"><i class="sw" style="background:#E08A1E"></i>Continuous and temporal planning <i class="ab">CONT</i></span><span class="theme-list"><a href="#shop2-pddl">SHOP2-PDDL+</a>, <a href="#cassl">CASSL</a>, <a href="#carpe-amore">CARPE&nbsp;/&nbsp;AMORE</a></span></div>
+  <div class="theme" id="theme-repair"><span class="theme-name"><i class="sw" style="background:#D0392A"></i>Plan repair under disruption <i class="ab">REPAIR</i></span><span class="theme-list"><a href="#carpe-amore">CARPE&nbsp;/&nbsp;AMORE</a>, <a href="#adrus">ADRUS</a>, <a href="#gate">GATE</a>, <a href="#scepter-planner">Military campaign planner</a></span></div>
+  <div class="theme" id="theme-indiv"><span class="theme-name"><i class="sw" style="background:#A63596"></i>Modeling individuals <i class="ab">INDIV</i></span><span class="theme-list"><a href="#tad">TAD</a>, <a href="#pride">PRIDE</a></span></div>
+  <div class="theme" id="theme-meas"><span class="theme-name"><i class="sw" style="background:#13A0C4"></i>Measurement and evaluation <i class="ab">MEAS</i></span><span class="theme-list"><a href="#environment-transformation-framework">Environment transformation framework</a>, <a href="#tielt-liet">TIELT&nbsp;/&nbsp;LIET</a>, <a href="#synthetic-cohort-site-evaluation">Synthetic-cohort site evaluation</a></span></div>
+  <div class="theme" id="theme-learn"><span class="theme-name"><i class="sw" style="background:#7E9B12"></i>Learning from experience <i class="ab">LEARN</i></span><span class="theme-list"><a href="#cassl">CASSL</a>, <a href="#casey-cbql-pr">Casey&nbsp;/&nbsp;CBQL-PR</a>, <a href="#cat">CaT</a>, <a href="#eml">EML</a>, <a href="#artue">ARTUE</a>, <a href="#tad">TAD</a></span></div>
+</nav>
+<figure class="timeline vt">
+  <div class="vtl-wrap"><span class="vtl-axis" aria-hidden="true"></span>
+  <ol class="vtl">
+    <li class="vtl-i L"><span class="vtl-y">2003–2009</span><a class="vtl-n" href="#tielt-liet">TIELT&nbsp;/&nbsp;LIET</a><span class="vtl-t"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2005</span><a class="vtl-n" href="#cat">CaT</a><span class="vtl-t"><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2008</span><a class="vtl-n" href="#cassl">CASSL</a><span class="vtl-t"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2009</span><a class="vtl-n" href="#casey-cbql-pr">Casey&nbsp;/&nbsp;CBQL-PR</a><span class="vtl-t"><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2009–2013</span><a class="vtl-n" href="#artue">ARTUE</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2010</span><a class="vtl-n" href="#shop2-pddl">SHOP2-PDDL+</a><span class="vtl-t"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2010–2017</span><a class="vtl-n" href="#discoverhistory">DiscoverHistory</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2011–2017</span><a class="vtl-n" href="#eml">EML</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2013–2015</span><a class="vtl-n" href="#adrus">ADRUS</a><span class="vtl-t"><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2013–2017</span><a class="vtl-n" href="#carpe-amore">CARPE&nbsp;/&nbsp;AMORE</a><span class="vtl-t"><a class="tag" href="#theme-cont" style="color:#9E5E0D">CONT</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2014–2016</span><a class="vtl-n" href="#asm">ASM</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2018–2019</span><a class="vtl-n" href="#gate">GATE</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2019–2023</span><a class="vtl-n" href="#environment-transformation-framework">Environment transformation framework</a><span class="vtl-t"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2019–2023</span><a class="vtl-n" href="#pride">PRIDE</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-indiv" style="color:#7F2670">INDIV</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2022–2024</span><a class="vtl-n" href="#scepter-planner">Military campaign planner</a><span class="vtl-t"><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-repair" style="color:#A3291C">REPAIR</a></span></li>
+    <li class="vtl-i R"><span class="vtl-y">2023–2025</span><a class="vtl-n" href="#tad">TAD</a><span class="vtl-t"><a class="tag" href="#theme-expl" style="color:#07685C">EXPL</a><a class="tag" href="#theme-goal" style="color:#2646A0">GOAL</a><a class="tag" href="#theme-indiv" style="color:#7F2670">INDIV</a><a class="tag" href="#theme-learn" style="color:#5E730C">LEARN</a></span></li>
+    <li class="vtl-i L"><span class="vtl-y">2026</span><a class="vtl-n" href="#synthetic-cohort-site-evaluation">Synthetic-cohort site evaluation</a><span class="vtl-t"><a class="tag" href="#theme-meas" style="color:#0D7690">MEAS</a></span></li>
+  </ol></div>
+  <figcaption>Seventeen systems in order of when each began, tagged with every theme it belongs to.</figcaption>
+</figure>
+<figure class="timeline lanes">
+  <div class="tl">
+    <div class="tl-axis"><span class="tl-nm"></span><span class="tl-track">
+      <span class="tl-yr" style="left:0.00%">2003</span>
+      <span class="tl-yr" style="left:12.50%">2006</span>
+      <span class="tl-yr" style="left:25.00%">2009</span>
+      <span class="tl-yr" style="left:37.50%">2012</span>
+      <span class="tl-yr" style="left:50.00%">2015</span>
+      <span class="tl-yr" style="left:62.50%">2018</span>
+      <span class="tl-yr" style="left:75.00%">2021</span>
+      <span class="tl-yr" style="left:87.50%">2024</span>
+    </span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#0B8F82"></i>EXPL</span><span class="tl-track"><span class="tl-bar" style="left:25.00%;width:70.83%;background:#0B8F82"></span><span class="tl-tick" style="left:33.33%"></span><span class="tl-tick" style="left:43.75%"></span><span class="tl-tick" style="left:45.83%"></span><span class="tl-tick" style="left:50.00%"></span><span class="tl-tick" style="left:64.58%"></span><span class="tl-tick" style="left:75.00%"></span><span class="tl-tick" style="left:87.50%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#2E5BD8"></i>GOAL</span><span class="tl-track"><span class="tl-bar" style="left:25.00%;width:20.83%;background:#2E5BD8"></span><span class="tl-bar" style="left:62.50%;width:8.33%;background:#2E5BD8"></span><span class="tl-bar" style="left:79.17%;width:16.67%;background:#2E5BD8"></span><span class="tl-tick" style="left:33.33%"></span><span class="tl-tick" style="left:64.58%"></span><span class="tl-tick" style="left:83.33%"></span><span class="tl-tick" style="left:87.50%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#E08A1E"></i>CONT</span><span class="tl-track"><span class="tl-bar" style="left:20.83%;width:4.17%;background:#E08A1E"></span><span class="tl-bar" style="left:29.17%;width:4.17%;background:#E08A1E"></span><span class="tl-bar" style="left:41.67%;width:20.83%;background:#E08A1E"></span><span class="tl-tick" style="left:29.17%"></span><span class="tl-tick" style="left:20.83%"></span><span class="tl-tick" style="left:50.00%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#D0392A"></i>REPAIR</span><span class="tl-track"><span class="tl-bar" style="left:41.67%;width:29.17%;background:#D0392A"></span><span class="tl-bar" style="left:79.17%;width:12.50%;background:#D0392A"></span><span class="tl-tick" style="left:50.00%"></span><span class="tl-tick" style="left:45.83%"></span><span class="tl-tick" style="left:64.58%"></span><span class="tl-tick" style="left:83.33%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#A63596"></i>INDIV</span><span class="tl-track"><span class="tl-bar" style="left:66.67%;width:29.17%;background:#A63596"></span><span class="tl-tick" style="left:87.50%"></span><span class="tl-tick" style="left:75.00%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#13A0C4"></i>MEAS</span><span class="tl-track"><span class="tl-bar" style="left:0.00%;width:29.17%;background:#13A0C4"></span><span class="tl-bar" style="left:66.67%;width:20.83%;background:#13A0C4"></span><span class="tl-bar" style="left:95.83%;width:4.17%;background:#13A0C4"></span><span class="tl-tick" style="left:75.00%"></span><span class="tl-tick" style="left:12.50%"></span><span class="tl-tick" style="left:95.83%"></span></span></div>
+    <div class="tl-row"><span class="tl-nm"><i class="sw" style="background:#7E9B12"></i>LEARN</span><span class="tl-track"><span class="tl-bar" style="left:8.33%;width:4.17%;background:#7E9B12"></span><span class="tl-bar" style="left:20.83%;width:41.67%;background:#7E9B12"></span><span class="tl-bar" style="left:83.33%;width:12.50%;background:#7E9B12"></span><span class="tl-tick" style="left:20.83%"></span><span class="tl-tick" style="left:25.00%"></span><span class="tl-tick" style="left:8.33%"></span><span class="tl-tick" style="left:45.83%"></span><span class="tl-tick" style="left:33.33%"></span><span class="tl-tick" style="left:87.50%"></span></span></div>
+  </div>
+  <figcaption>The same work by theme. Bars show when each thread was active; gaps are real gaps.</figcaption>
+</figure>
+</section>
+
+
+
+
+
+
+
+
+</main>
+
+<footer>
+  <a href="mailto:matthew.molineaux@gmail.com">matthew.molineaux@gmail.com</a>
+</footer>
+
+
+
+</div>
+</body></html>
